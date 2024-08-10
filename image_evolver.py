@@ -1,5 +1,5 @@
 from PIL import Image, ImageDraw
-from random import random, choice
+from random import random, choice, shuffle, randrange
 
 img = None
 try: 
@@ -105,14 +105,14 @@ class ImageCreator:
             self.add_shape()
             self.add_shape()
             self.add_shape()
-        elif r < 0.025:
-            self.shapes = self.shapes[1:]
         elif r < 0.05:
-            self.shapes = self.shapes[:-1]
-        elif r < 0.95:
+            self.shapes.pop(randrange(len(self.shapes))) 
+        elif r < 0.93:
             self.edit_random_shape()
-        else:
+        elif r < 0.98:
             self.add_shape()
+        else:
+            shuffle(self.shapes)
 
     def edit_random_shape(self):
         s = choice(self.shapes)
