@@ -57,7 +57,7 @@ class ImageEvolverWindow:
         ttk.Label(mainframe, text="Iteration:").grid(column=0, row=5, sticky=(W, E))
         ttk.Label(mainframe, textvariable=self.iteration).grid(column=0, row=6, sticky=(W, E))
 
-        ttk.Button(mainframe, text="Step", command=self.step).grid(column=2, row=4, sticky=W)
+        ttk.Button(mainframe, text="Step", command=self.step).grid(column=2, row=5, sticky=W)
         ttk.Button(mainframe, text="Init Generation", command=self.start).grid(column=3, row=5, sticky=W)
         ttk.Button(mainframe, text="Stop Generation", command=self.stop).grid(column=5, row=5, sticky=W)
         ttk.Button(mainframe, text="Play Generation", command=self.continue_g).grid(column=4, row=5, sticky=W)
