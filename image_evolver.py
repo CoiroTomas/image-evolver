@@ -1,5 +1,5 @@
 from PIL import Image, ImageDraw
-from random import random, choice, shuffle, randrange
+from random import random, choice, randrange
 
 def sort_func(ic):
     return ic.saved_diff
@@ -103,7 +103,8 @@ class ImageCreator:
         elif r < 0.98:
             self.add_shape()
         else:
-            shuffle(self.shapes)
+            self.change_shapes()
+            self.change_shapes()
 
     def edit_random_shape(self):
         s = choice(self.shapes)
