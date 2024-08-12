@@ -55,12 +55,12 @@ class ImageEvolverWindow:
 
         self.iteration = StringVar()
         ttk.Label(mainframe, text="Iteration:").grid(column=0, row=5, sticky=(W, E))
-        ttk.Label(mainframe, textvariable=self.iteration).grid(column=1, row=5, sticky=(W, E))
+        ttk.Label(mainframe, textvariable=self.iteration).grid(column=1, row=6, sticky=(W, E))
 
         ttk.Button(mainframe, text="Step", command=self.step).grid(column=2, row=4, sticky=W)
-        ttk.Button(mainframe, text="Init Generation", command=self.start).grid(column=3, row=4, sticky=W)
-        ttk.Button(mainframe, text="Stop Generation", command=self.stop).grid(column=5, row=4, sticky=W)
-        ttk.Button(mainframe, text="Play Generation", command=self.continue_g).grid(column=4, row=4, sticky=W)
+        ttk.Button(mainframe, text="Init Generation", command=self.start).grid(column=3, row=5, sticky=W)
+        ttk.Button(mainframe, text="Stop Generation", command=self.stop).grid(column=5, row=5, sticky=W)
+        ttk.Button(mainframe, text="Play Generation", command=self.continue_g).grid(column=4, row=5, sticky=W)
 
         ttk.Label(mainframe, text="Original Image").grid(column=0, row=0, sticky=W)
         ttk.Label(mainframe, text="Pool Size").grid(column=0, row=1, sticky=W)
@@ -85,6 +85,12 @@ class ImageEvolverWindow:
         self.i2000_label.grid(column=4, row=3, sticky=W)
         self.i5000_label = ttk.Label(mainframe, image=None)
         self.i5000_label.grid(column=5, row=3, sticky=W)
+
+        ttk.Button(mainframe, text="Save Current", command=self.save_current).grid(column=1, row=4, sticky=W)
+        ttk.Button(mainframe, text="Save Iteration 100", command=self.save_100).grid(column=2, row=4, sticky=W)
+        ttk.Button(mainframe, text="Save Iteration 1000", command=self.save_1000).grid(column=3, row=4, sticky=W)
+        ttk.Button(mainframe, text="Save Iteration 2000", command=self.save_2000).grid(column=4, row=4, sticky=W)
+        ttk.Button(mainframe, text="Save Iteration 5000", command=self.save_5000).grid(column=4, row=4, sticky=W)
 
         for child in mainframe.winfo_children(): 
             child.grid_configure(padx=5, pady=5)
@@ -136,6 +142,36 @@ class ImageEvolverWindow:
             askopenfilename(initialdir="./",
                             title="Search Image",
                             filetypes=(("JPG", ".jpg"), ("PNG", ".png"))))
+    
+    def save_current(self, *args):
+        img = self.ci_image
+        path = "./" + self.iteration.get() + ".png"
+        if img:
+            ImageTk.getimage(img).save(path)
+
+    def save_1000(self, *args):
+        img = self.i1000_image
+        path = "./1000.png"
+        if img:
+            ImageTk.getimage(img).save(path)
+            
+    def save_100(self, *args):
+        img = self.i100_image
+        path = "./100.png"
+        if img:
+            ImageTk.getimage(img).save(path)
+    
+    def save_2000(self, *args):
+        img = self.i2000_image
+        path = "./2000.png"
+        if img:
+            ImageTk.getimage(img).save(path)
+    
+    def save_5000(self, *args):
+        img = self.i5000_image
+        path = "./5000.png"
+        if img:
+            ImageTk.getimage(img).save(path)
 
 t= threading.Thread(target=play_loop)
 t.daemon = True
