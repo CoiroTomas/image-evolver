@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+from tkinter.filedialog import askopenfilename
 from PIL import ImageTk, Image
 from image_evolver import ImageEvolver
 import threading
@@ -47,11 +48,14 @@ class ImageEvolverWindow:
         generation_survivers_entry.grid(column=3, row=1, sticky=(W, E))
 
         self.original_image = StringVar()
-        image_entry = ttk.Entry(mainframe, width=25, textvariable=self.original_image)
+        image_entry = ttk.Label(mainframe, width=25, textvariable=self.original_image)
         image_entry.grid(column=1, row=0, sticky=(W, E))
 
+        ttk.Button(mainframe, text="Search Image", command=self.open_file).grid(column=2, row=0, sticky=W)
+
         self.iteration = StringVar()
-        ttk.Label(mainframe, textvariable=self.iteration).grid(column=0, row=5, sticky=(W, E))
+        ttk.Label(mainframe, text="Iteration:").grid(column=0, row=5, sticky=(W, E))
+        ttk.Label(mainframe, textvariable=self.iteration).grid(column=1, row=5, sticky=(W, E))
 
         ttk.Button(mainframe, text="Step", command=self.step).grid(column=2, row=4, sticky=W)
         ttk.Button(mainframe, text="Init Generation", command=self.start).grid(column=3, row=4, sticky=W)
@@ -126,6 +130,12 @@ class ImageEvolverWindow:
         if int(self.iteration.get()) == 5000:
             self.i5000_image = current_best
             self.i5000_label['image'] = current_best
+    
+    def open_file(self, *args):
+        self.original_image.set(
+            askopenfilename(initialdir="./",
+                            title="Search Image",
+                            filetypes=(("JPG", ".jpg"), ("PNG", ".png"))))
 
 t= threading.Thread(target=play_loop)
 t.daemon = True
