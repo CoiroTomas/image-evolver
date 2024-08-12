@@ -55,7 +55,7 @@ class ImageEvolverWindow:
 
         self.iteration = StringVar()
         ttk.Label(mainframe, text="Iteration:").grid(column=0, row=5, sticky=(W, E))
-        ttk.Label(mainframe, textvariable=self.iteration).grid(column=1, row=6, sticky=(W, E))
+        ttk.Label(mainframe, textvariable=self.iteration).grid(column=0, row=6, sticky=(W, E))
 
         ttk.Button(mainframe, text="Step", command=self.step).grid(column=2, row=4, sticky=W)
         ttk.Button(mainframe, text="Init Generation", command=self.start).grid(column=3, row=5, sticky=W)
