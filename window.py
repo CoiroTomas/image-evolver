@@ -90,7 +90,7 @@ class ImageEvolverWindow:
         ttk.Button(mainframe, text="Save Iteration 100", command=self.save_100).grid(column=2, row=4, sticky=W)
         ttk.Button(mainframe, text="Save Iteration 1000", command=self.save_1000).grid(column=3, row=4, sticky=W)
         ttk.Button(mainframe, text="Save Iteration 2000", command=self.save_2000).grid(column=4, row=4, sticky=W)
-        ttk.Button(mainframe, text="Save Iteration 5000", command=self.save_5000).grid(column=4, row=4, sticky=W)
+        ttk.Button(mainframe, text="Save Iteration 5000", command=self.save_5000).grid(column=5, row=4, sticky=W)
 
         for child in mainframe.winfo_children(): 
             child.grid_configure(padx=5, pady=5)
