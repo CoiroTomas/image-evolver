@@ -1,12 +1,6 @@
 from PIL import Image, ImageDraw
 from random import random, choice, shuffle, randrange
 
-img = None
-try: 
-    img  = Image.open("image.jpg") 
-except IOError:
-    exit
-
 def sort_func(ic):
     return ic.saved_diff
     
@@ -60,17 +54,14 @@ class Shape:
              int(random() * 256))
 
 class ImageCreator:
-    width = 1
-    height = 1
-    shapes = []
-    saved_diff = 0
-    last_generated_image = None
-
     def init_image(self):
         self.last_generated_image = Image.new("RGB",
                 (self.width, self.height), (255, 255, 255))
 
     def __init__(self, original_image):
+        self.shapes = []
+        self.saved_diff = 0
+        self.last_generated_image = None
         self.width, self.height = original_image.size
 
     def generate_image(self):
@@ -123,16 +114,11 @@ class ImageCreator:
     
 
 class ImageEvolver:
-    original_image = None
-    image_pool = []
-    step = 0
-    top = 3
-    gen = 32
-
     def __init__(self, original_image, pool_size, generation_survivers):
         self.original_image = original_image
         self.top = generation_survivers
         self.gen = int(pool_size/generation_survivers) - 1
+        self.image_pool = []
         for i in range(pool_size):
             ic = ImageCreator(original_image)
             ic.init_image()
@@ -163,7 +149,12 @@ class ImageEvolver:
         for i in range(self.top):
             print(str(1+i) + ") " + str(self.image_pool[i].saved_diff))
         return self.image_pool[0].last_generated_image
-
+"""
+img = None
+try: 
+    img  = Image.open("image.jpg") 
+except IOError:
+    exit
 evolver = ImageEvolver(img, 22, 2)
 for i in range(10000):
     print("\n" + str(i+1))
@@ -180,3 +171,4 @@ for i in range(10000):
         b.save("5000.png")
     elif i+1 == 10000:
         b.save("10000.png")
+"""
