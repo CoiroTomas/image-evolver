@@ -96,9 +96,9 @@ class ImageCreator:
             self.add_shape()
             self.add_shape()
             self.add_shape()
-        elif r < 0.05:
+        elif r < 0.1:
             self.shapes.pop(randrange(len(self.shapes))) 
-        elif r < 0.93:
+        elif r < 0.9:
             self.edit_random_shape()
         elif r < 0.98:
             self.add_shape()
