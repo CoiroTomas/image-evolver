@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from tkinter.filedialog import askopenfilename
 from PIL import ImageTk, Image
 from image_evolver import ImageEvolver
@@ -16,21 +16,22 @@ def play_loop():
             time.sleep(1)
 
 class ImageEvolverWindow:
-    pool_size = None
-    generation_survivers = None
-    original_image = None
-    iteration = None
-    image_evolver = None
-    playing = False
-
-    oi_image = None
-    ci_image = None
-    i100_image = None
-    i1000_image = None
-    i2000_image = None
-    i5000_image = None
-
     def __init__(self, root):
+        self.pool_size = None
+        self.generation_survivers = None
+        self.original_image = None
+        self.iteration = None
+        self.image_evolver = None
+        self.playing = False
+        
+        self.oi_image = None
+        self.ci_image = None
+        self.i100_image = None
+        self.i1000_image = None
+        self.i2000_image = None
+        self.i5000_image = None
+
+        self.root = root
         root.title("Image Evolver")
 
         mainframe = ttk.Frame(root, padding="3 3 12 12")
@@ -58,9 +59,9 @@ class ImageEvolverWindow:
         ttk.Label(mainframe, textvariable=self.iteration).grid(column=0, row=6, sticky=(W, E))
 
         ttk.Button(mainframe, text="Step", command=self.step).grid(column=2, row=5, sticky=W)
-        ttk.Button(mainframe, text="Init Generation", command=self.start).grid(column=3, row=5, sticky=W)
-        ttk.Button(mainframe, text="Stop Generation", command=self.stop).grid(column=5, row=5, sticky=W)
-        ttk.Button(mainframe, text="Play Generation", command=self.continue_g).grid(column=4, row=5, sticky=W)
+        ttk.Button(mainframe, text="Start New", command=self.start).grid(column=3, row=5, sticky=W)
+        ttk.Button(mainframe, text="Stop", command=self.stop).grid(column=5, row=5, sticky=W)
+        ttk.Button(mainframe, text="Play", command=self.continue_g).grid(column=4, row=5, sticky=W)
 
         ttk.Label(mainframe, text="Original Image").grid(column=0, row=0, sticky=W)
         ttk.Label(mainframe, text="Pool Size").grid(column=0, row=1, sticky=W)
@@ -99,10 +100,21 @@ class ImageEvolverWindow:
         root.bind("<Return>", self.start)
 
     def start(self, *args):
-        original_image = Image.open("./"+self.original_image.get())
+        if (self.original_image.get() == ""
+            or self.generation_survivers.get() == ""
+            or self.pool_size.get() == ""):
+            messagebox.Message(parent=self.root, message="Arguments missing").show()
+            return
+        original_image = None
+        try:
+            original_image = Image.open(self.original_image.get())
+        except:
+            messagebox.Message(parent=self.root, message="Error opening image").show()
+            return
         self.image_evolver = ImageEvolver(original_image,
                                           int(self.pool_size.get()),
                                           int(self.generation_survivers.get()))
+        #self.image_evolver.debug = True #For printing of diff values
         self.iteration.set(0)
         self.playing = False
         self.oi_image = ImageTk.PhotoImage(original_image)
@@ -112,6 +124,7 @@ class ImageEvolverWindow:
         self.i1000_image = None
         self.i2000_image = None
         self.i5000_image = None
+        self.continue_g()
 
     def continue_g(self, *args):
         self.playing = True
@@ -120,6 +133,10 @@ class ImageEvolverWindow:
         self.playing = False
 
     def step(self, *args):
+        if not self.image_evolver:
+            messagebox.Message(self.root, message="Can't advance iterations").show()
+            self.playing = False
+            return
         self.iteration.set(int(self.iteration.get()) + 1)
         current_best = ImageTk.PhotoImage(self.image_evolver.step())
         self.ci_image = current_best

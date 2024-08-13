@@ -116,6 +116,7 @@ class ImageCreator:
 
 class ImageEvolver:
     def __init__(self, original_image, pool_size, generation_survivers):
+        self.debug = False
         self.original_image = original_image
         self.top = generation_survivers
         self.gen = int(pool_size/generation_survivers) - 1
@@ -147,8 +148,9 @@ class ImageEvolver:
         self.add_shapes_and_compare()
         self.sort()
         self.replicate_pool()
-        for i in range(self.top):
-            print(str(1+i) + ") " + str(self.image_pool[i].saved_diff))
+        if self.debug:
+            for i in range(self.top):
+                print(str(1+i) + ") " + str(self.image_pool[i].saved_diff))
         return self.image_pool[0].last_generated_image
 """
 img = None
