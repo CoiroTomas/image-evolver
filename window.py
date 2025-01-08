@@ -190,10 +190,12 @@ class ImageEvolverWindow:
         if img:
             ImageTk.getimage(img).save(path)
 
-t= threading.Thread(target=play_loop)
-t.daemon = True
-t.start()
+if __name__ == "__main__":
+    t= threading.Thread(target=play_loop)
+    t.daemon = True
+    t.start()
+    
+    root = Tk()
+    imw = ImageEvolverWindow(root)
+    root.mainloop()
 
-root = Tk()
-imw = ImageEvolverWindow(root)
-root.mainloop()
